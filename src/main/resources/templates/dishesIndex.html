@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dishesIndex</title>
+</head>
+
+<body>
+<div id="header" style="background-color:#33CCCC;">
+    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+
+<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+    <h1>特色推荐</h1>
+    <p th:text="${tip}"></p>
+
+    <a href="/lookingFor">搜索</a>
+
+    <form action="/dishesListByCategoryId" method="post">
+        <div>
+            <label>
+                请选择种类<select name="categoryId">
+                <option value="1">特色推荐</option>
+                <option value="2">凉菜</option>
+                <option value="3">蒸菜</option>
+                <option value="4">经典小炒</option>
+                <option value="5">羹汤小池</option>
+                <option value="6">酒水饮料</option>
+                <option value="7">主食</option>
+            </select>
+            </label>
+            <input type="submit" value="确定">
+        </div>
+    </form>
+
+
+    <a href="/shoppingCart">购物车</a>
+
+    <a href="/orderedMenu">查看已点菜单</a>
+
+    <table border="1">
+        <tr>
+            <th>id</th>
+            <th>菜品名</th>
+            <th>价格</th>
+        </tr>
+        <tr th:each="m:${dishesList}">
+            <td th:text="${m.id}"></td>
+            <td th:text="${m.name}"></td>
+            <td th:text="${m.price}"></td>
+        </tr>
+    </table>
+
+    <form action="/dishesListPageByCategoryId" method="post">
+        <div>
+            <label>
+                请选择页数<select name="number">
+                <option value="0">1</option>
+                <option value="1">2</option>
+            </select>
+            </label>
+            <input type="submit" value="确定">
+        </div>
+    </form>
+</div>
+</body>
+</html>

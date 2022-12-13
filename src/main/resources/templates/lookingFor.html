@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dishesIndex</title>
+</head>
+
+<body>
+<div id="header" style="background-color:#33CCCC;">
+    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+
+<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+
+    <form action="/lookingForSomething" method="post">
+        <div>
+            请输入你需要查找的菜品<input type="text" name="dishes">
+        </div>
+        <div>
+            <input type="submit" value="收索">
+        </div>
+    </form>
+
+    <a href="/dishesIndex">返回菜单</a>
+
+    <h2>本店推荐</h2>
+    <p th:text="${tip}"></p>
+
+    <table border="1">
+        <tr>
+            <th>id</th>
+            <th>菜品名</th>
+            <th>价格</th>
+        </tr>
+        <tr th:each="m:${dishesList}">
+            <td th:text="${m.id}"></td>
+            <td th:text="${m.name}"></td>
+            <td th:text="${m.price}"></td>
+        </tr>
+    </table>
+
+    <form action="/dishesListPage" method="post">
+        <div>
+            <label>
+                请选择页数<select name="number">
+                <option value="0">1</option>
+                <option value="1">2</option>
+            </select>
+            </label>
+            <input type="submit" value="确定">
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>rest</title>
+</head>
+
+<div id="container" style="width:1800px">
+
+    <div th:insert="commons::name"></div>
+
+    <div id="content" style="background-color:#E0FFFF;height:1000px;width:1600px;float:left;">
+        <h1>您已进入休息时间，点击下方按钮继续接单</h1>
+        <form action="/rest" method="post">
+            <div>
+                <input type="submit" value="继续接单">
+            </div>
+        </form>
+    </div>
+
+
+</div>
+</html>
