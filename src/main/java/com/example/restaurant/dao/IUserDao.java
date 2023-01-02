@@ -11,5 +11,6 @@ public interface IUserDao extends JpaRepository<User,Integer> {
     User findById(int id);
     User findByName(String name);
     Page<User> findByIdentity(String identity, Pageable pageable);
-    Page<User> findByIsDelete(int isDelete,Pageable pageable);
+    Page<User> findByStatus(int status,Pageable pageable);
+    User findByPhone(String phone);
 }

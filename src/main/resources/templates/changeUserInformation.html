@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>changeUserInformation</title>
+    <script src="/jquery-3.6.1.min(1).js"></script>
+    <script>
+        function getVerification(){
+            let a = $("#cellphone");
+            let url = "/send?cellphone="+a.val();
+            $.get(url,function (data,status){
+                if(status == "success"){
+                    a.textContent = data["code"];
+                }else{
+                    console.log("error");
+                }
+            })
+            console.log(a.textContent);
+        }
+    </script>
+    <script>
+        function checkPassword(){
+            let a = $("#p1").val();
+            let b = $("#p2").val();
+            if(a != b){
+                alert("两次密码不同");
+                $("#1").submit(function (){
+                    return false;
+                })
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="header" style="background-color:#33CCCC;">
+    <h1 style="margin-bottom:0;text-align:center">欢迎使用餐厅系统</h1></div>
+
+<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+    <div th:insert="commons::name1"></div>
+    <h2>重置密码</h2>
+    <p th:text="${tip}"></p>
+    <div>
+        请输入你的手机号<input id="cellphone" type="text" name="phone">
+    </div>
+    <button onclick="getVerification()">获取验证码</button>
+
+    <form action="/changePassword" method="post">
+        <div>
+            请输入验证码<input type="text" name="code">
+        </div>
+        <div>
+            请输入新密码<input type="password" id="p1">
+        </div>
+        <div>
+            请确认新密码<input onblur="checkPassword()" type="password" name="password" id="p2">
+        </div>
+        <button id="1" type="submit">确定</button>
+    </form>
+</div>
+</body>
+</html>

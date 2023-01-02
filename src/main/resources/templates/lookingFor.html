@@ -13,14 +13,14 @@
 
     <form action="/lookingForSomething" method="post">
         <div>
-            请输入你需要查找的菜品<input type="text" name="dishes">
+            请输入你需要查找的菜品<input type="text" name="dishesName">
         </div>
         <div>
-            <input type="submit" value="收索">
+            <input type="submit" value="搜索">
         </div>
     </form>
 
-    <a href="/dishesIndex">返回菜单</a>
+    <a href="/customerIndex">返回菜单</a>
 
     <h2>本店推荐</h2>
     <p th:text="${tip}"></p>
@@ -38,17 +38,6 @@
         </tr>
     </table>
 
-    <form action="/dishesListPage" method="post">
-        <div>
-            <label>
-                请选择页数<select name="number">
-                <option value="0">1</option>
-                <option value="1">2</option>
-            </select>
-            </label>
-            <input type="submit" value="确定">
-        </div>
-    </form>
 </div>
 </body>
 </html>

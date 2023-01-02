@@ -1,47 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>customer</title>
+    <meta charset="UTF-8">
+    <title>customer</title>
 </head>
-
 <body>
-<div id="container" style="width:1800px">
-
-  <div id="header" style="background-color:#33CCCC;">
+<div id="header" style="background-color:#33CCCC;">
     <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
 
-  <div id="content" style="background-color:#F0F0F0;height:1000px;width:1800px;float:left;">
-    <h2>登  陆</h2>
-    <p th:text="${error}"></p>
-    <form action="/customer"  method="post">
-      <div>
-        <label>
-          用户名<input type="text" name="name">
-        </label>
-      </div>
-      <div>
-        <label>
-          密 码<input type="text" name="password">
-        </label>
-      </div>
-      <div>
-        <label>
-          请输入人数<input type="number" name="count">
-        </label>
-      </div>
-      <div>
-        <label>
-          请输入座位号<input type="number" name="table">
-        </label>
-      </div>
+<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+    <h1>请注册登陆</h1>
+    <p th:text="${tip}"></p>
 
-      <div>
-        <input type="submit" value="提交">
-      </div>
+    <form action="/regCustomer" method="post">
+        <div>
+            请输入用户名<input type="text" name="name">
+        </div>
+        <div>
+            请输入密码<input type="password" name="password">
+        </div>
+        <div>
+            请输入人数<input type="number" name="count">
+        </div>
+        <div>
+            请输入桌号<input type="number" name="tableId">
+        </div>
+        <input type="submit" value="确定">
     </form>
-  </div>
+
 </div>
 </body>
 </html>
-

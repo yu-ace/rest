@@ -1,37 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>login</title>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>loading</title>
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <script src="/jquery-3.6.1.min(1).js"></script>
+  <script>
+    function getPhone(){
+      let a = $("#phone").val()
+      $("#phone1").val(a);
+    }
+  </script>
+  <script>
+    function sendVerification(){
+      let a = $("#phone");
+      let url = "/send?cellphone="+a.val();
+      $.get(url,function (data,status){
+        if(status == "success"){
+          a.textContent = data["code"];
+        }else{
+          console.log("error");
+        }
+      })
+      console.log(a.textContent);
+    }
+  </script>
 </head>
 
 <body>
-<div id="container" style="width:1800px">
+<div>
 
-    <div id="header" style="background-color:#33CCCC;">
-        <h1 style="margin-bottom:0;text-align:center">欢迎使用餐厅系统</h1></div>
+  <div class="container text-center">
+    <h1 >欢迎使用餐厅系统</h1>
+  </div>
 
-    <div id="content" style="background-color:#F0F0F0;height:1000px;width:1800px;float:left;">
-        <h2>登  陆</h2>
-        <p th:text="${error}"></p>
-        <form action="/login"  method="post">
-            <div>
-                <label>
-                    用户名<input type="text" name="name">
-                </label>
-            </div>
-            <div>
-                <label>
-                    密 码<input type="text" name="password">
-                </label>
-            </div>
-            <div>
-                <input type="submit" value="提交">
-            </div>
-        </form>
-    </div>
+  <div>
+
+    <h2>登  录</h2>
+    <p th:text="${error}"></p>
+
+      <div class="mb-3">
+        <label class="form-label">请输入手机号</label>
+        <input class="form-control" id="phone" type="text" name="cellphone">
+      </div>
+      <button onclick="sendVerification()" class="btn btn-primary">获取验证码</button>
+    <form action="/checkVerificationCode"  method="post">
+      <div>
+        <input id="phone1" type="hidden" name="phone">
+      </div>
+      <div>
+          请输入验证码<input onfocus="getPhone()" type="text" name="code">
+      </div>
+      <div>
+        <input type="submit" value="提交">
+      </div>
+    </form>
+  </div>
 </div>
-    </body>
+  </body>
 
 
 </html>

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ICategoryDao extends JpaRepository<Category,Integer> {
+    Category getCategoryById(int id);
 }

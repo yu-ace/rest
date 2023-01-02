@@ -11,25 +11,23 @@ public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Integer id;
     @Column(name = "name")
     String name;
     @Column(name = "password")
     String password;
     @Column(name = "identity")
     String identity;
-    @Column(name = "wage")
-    double wage;
-    @Column(name = "is_delete")
-    int isDelete;
-    @Column(name = "phone_number")
-    String phoneNumber;
+    @Column(name = "status")
+    Integer status;
+    @Column(name = "phone")
+    String phone;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,27 +55,19 @@ public class User {
         this.identity = identity;
     }
 
-    public double getWage() {
-        return wage;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setWage(double wage) {
-        this.wage = wage;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public int getIsDelete() {
-        return isDelete;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setIsDelete(int isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

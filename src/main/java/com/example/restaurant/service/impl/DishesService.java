@@ -31,16 +31,16 @@ public class DishesService implements IDishesService {
 
     @Override
     public Dishes getDishesByName(String name) {
-        return null;
+        return dishesDao.findByName(name);
     }
 
     @Override
     public Page<Dishes> getDishesList(Pageable pageable) {
-        return null;
+        return dishesDao.findAll(pageable);
     }
 
     @Override
     public Page<Dishes> getDishesListByCategoryId(int categoryId, Pageable pageable) {
-        return null;
+        return dishesDao.findByCategoryId(categoryId,pageable);
     }
 }

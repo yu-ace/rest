@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reduceOrder</title>
+</head>
+<body>
+<div id="header" style="background-color:#33CCCC;">
+  <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+
+<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+
+  <div th:insert="commons::name1"></div>
+
+  <h2>删除菜品</h2>
+  <p th:text="${tip}"></p>
+
+  <form action="/reduceOrderItem" method="post">
+    <div>
+      请输入菜品id<input type="number" name="dishesId">
+    </div>
+    <div>
+      请输入菜品数量<input type="number" name="count">
+    </div>
+    <button type="submit">确定</button>
+  </form>
+
+  <a href="/pay">返回</a>
+
+</div>
+</body>
+</html>

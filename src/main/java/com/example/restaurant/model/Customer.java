@@ -11,21 +11,21 @@ public class Customer {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Integer id;
     @Column(name = "name")
     String name;
     @Column(name = "password")
     String password;
     @Column(name = "count")
-    int count;
+    Integer count;
     @Column(name = "table_id")
-    int tableId;
+    Integer tableId;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -45,19 +45,19 @@ public class Customer {
         this.password = password;
     }
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
-    public int getTableId() {
+    public Integer getTableId() {
         return tableId;
     }
 
-    public void setTableId(int tableId) {
+    public void setTableId(Integer tableId) {
         this.tableId = tableId;
     }
 }

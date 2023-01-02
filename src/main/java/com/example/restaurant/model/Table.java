@@ -5,23 +5,23 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
-@javax.persistence.Table(name = "table")
+@javax.persistence.Table(name = "table_information")
 @DynamicUpdate
 public class Table {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Integer id;
     @Column(name = "name")
     String name;
-    @Column(name = "is_delete")
-    int isDelete;
+    @Column(name = "status")
+    Integer status;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -33,11 +33,11 @@ public class Table {
         this.name = name;
     }
 
-    public int getIsDelete() {
-        return isDelete;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setIsDelete(int isDelete) {
-        this.isDelete = isDelete;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

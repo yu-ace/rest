@@ -15,6 +15,11 @@ public class CategoryService implements ICategoryService {
     ICategoryDao categoryDao;
 
     @Override
+    public Category getCategoryById(int id) {
+        return categoryDao.getCategoryById(id);
+    }
+
+    @Override
     public Category newCategory(String name) {
         Category category = new Category();
         category.setName(name);

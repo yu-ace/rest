@@ -3,50 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>shoppingCart</title>
+    <script src="/jquery-3.6.1.min(1).js"></script>
+    <script>
+        function getDishesName(){
+            let a = $(".dishesName");
+            for(let i = 0;i < a.length;i++){
+                let aa = a[i];
+                let url = "/dishes?dishesId=" + aa.textContent;
+                $.get(url,function (data,status){
+                    if(status == "success"){
+                        aa.textContent = data["name"];
+                    }else{
+                        console.log("error")
+                    }
+                })
+                console.log(aa.textContent);
+            }
+        }
+    </script>
+    <script>
+        function getDishesPrice(){
+            let b = $(".dishesPrice");
+            for(let i = 0;i < b.length;i++){
+                let bb = b[i];
+                let url = "/dishes?dishesId=" + bb.textContent;
+                $.get(url,function (data,status){
+                    if(status == "success"){
+                        bb.textContent = data["price"];
+                    }else{
+                        console.log("error");
+                    }
+                })
+                console.log(bb.textContent);
+            }
+        }
+    </script>
+    <script>
+        function orderShoppingCart(){
+            let a = $(".dishes");
+            let b = "";
+            for(let i = 0;i < a.length;i++){
+                let aa = a[i];
+                b = b + aa.textContent + ",";
+            }
+            $("#dishesId").val(b);
+            let c = $(".dishesCount");
+            let d = "";
+            for(let i = 0;i < c.length;i++){
+                let cc = c[i];
+                d = d + cc.textContent + ",";
+            }
+            $("#count").val(d);
+            $("#form").submit();
+        }
+    </script>
 </head>
 
-<body>
+<body onload="getDishesName();getDishesPrice()">
 <div id="header" style="background-color:#33CCCC;">
     <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
 
 <div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
 
-    <form action="/deleteOrderList" method="post">
-        <div>
-            <label>
-                请输入你需要删除的菜品id
-                <input type="text" name="id">
-            </label>
-        </div>
-        <div>
-            <input type="submit" value="确定">
-        </div>
-    </form>
-
-
-    <a href="/dishesIndex">返回菜单</a>
 
     <h2>购物车</h2>
     <p th:text="${tip}"></p>
 
+    <form action="/reduceShoppingItem" method="post">
+        <div>
+            请输入需要减少的菜品id<input type="number" name="id">
+        </div>
+        <div>
+            请输入需要减少的菜品数量<input type="number" name="count">
+        </div>
+        <button type="submit">确定</button>
+    </form>
+
     <table border="1">
         <tr>
             <th>id</th>
+            <th>菜品id</th>
             <th>菜品名</th>
-            <th>价格</th>
+            <th>数量</th>
             <th>单价</th>
-            <th>总价</th>
         </tr>
-        <tr th:each="m:${orderList}">
+        <tr th:each="m:${shoppingItem}">
             <td th:text="${m.id}"></td>
-            <td th:text="${m.dishesId}"></td>
-            <td th:text="${m.unitPrice}"></td>
-            <td th:text="${m.count}"></td>
-            <td th:text="${m.price}"></td>
+            <td class="dishes" th:text="${m.dishesId}"></td>
+            <td class="dishesName" th:text="${m.dishesId}"></td>
+            <td class="dishesCount" th:text="${m.count}"></td>
+            <td class="dishesPrice" th:text="${m.dishesId}"></td>
         </tr>
     </table>
 
-    <form action="/OrderListPage" method="post">
+    <form action="/shoppingItemPage" method="post">
         <div>
             <label>
                 请选择页数<select name="number">
@@ -58,21 +108,17 @@
         </div>
     </form>
 
-    <form action="/addOrderList" method="post">
+    <form id="form" action="/order" method="post">
         <div>
-            <label>
-                请输入菜品id<input type="number" name="id">
-            </label>
+            <input id="dishesId" type="hidden" name="orderList">
         </div>
         <div>
-            <label>
-                请输入份数<input type="number" name="count">
-            </label>
+            <input id="count" type="hidden" name="counts">
         </div>
-        <div>
-            <input type="submit" value="确定">
-        </div>
+        <button onclick="orderShoppingCart()">下单</button>
     </form>
+
+    <a href="/customerIndex">返回菜单</a>
 </div>
 </body>
 </html>

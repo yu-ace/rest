@@ -7,5 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface ITableService {
     Table newTable(String name);
     Table reduceTable(int id);
-    Page<Table> getTableList(Pageable pageable);
+    Table getTableById(int tableId);
+    Page<Table> getTableList(int status,Pageable pageable);
 }

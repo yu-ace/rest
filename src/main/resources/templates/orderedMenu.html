@@ -5,39 +5,31 @@
     <title>shoppingCart</title>
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
-        function getDishesId(){
+        function getDishesName(){
             let a = $(".dishesId");
-            let b = "";
             for(let i = 0;i < a.length;i++){
-                let a1 = a[i];
-                b = b + a1.textContent + ",";
+                let aa = a[i];
+                let url = "/dishes?dishesId="+aa.textContent;
+                $.get(url,function (data,status){
+                    if(status == "success"){
+                        aa.textContent = data["name"];
+                    }else{
+                        console.log("error");
+                    }
+                })
+                console.log(aa.textContent);
             }
-                $("#dishes").val(b);
-            let c = $(".count");
-            let d = "";
-            for(let i = 0;i <c.length;i++){
-                let c1 = c[i];
-                d = d + c1.textContent + ",";
-            }
-            $("#count").val(d);
-            $("#form1").submit();
         }
     </script>
 </head>
 
-<body>
+<body onload="getDishesName()">
 <div id="header" style="background-color:#33CCCC;">
     <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
 
 <div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
 
-<input type = "number" name="customerId">
-    <input type = "number" name="order">
-
-
-
-
-    <a href="/dishesIndex">返回菜单</a>
+    <a href="/customerIndex">返回菜单</a>
 
     <h2>已点菜单</h2>
     <p th:text="${tip}"></p>
@@ -47,48 +39,18 @@
             <th>id</th>
             <th>菜品名</th>
             <th>价格</th>
-            <th>单价</th>
+            <th>数量</th>
             <th>总价</th>
         </tr>
-        <tr>
-            <th class="dishesId">2</th>
-            <th>菜品名</th>
-            <th>价格</th>
-            <th class="count">1</th>
-            <th>总价</th>
-        </tr>
-        <tr>
-            <th class="dishesId">4</th>
-            <th>菜品名</th>
-            <th>价格</th>
-            <th class="count">3</th>
-            <th>总价</th>
-        </tr>
-        <tr>
-            <th class="dishesId">4</th>
-            <th>菜品名</th>
-            <th>价格</th>
-            <th class="count">2</th>
-            <th>总价</th>
-        </tr>
-<!--        <tr th:each="m:${orderList}">-->
-<!--            <td th:text="${m.id}"></td>-->
-<!--            <td class ="dishesId" th:text="${m.dishesId}"></td>-->
-<!--            <td th:text="${m.unitPrice}"></td>-->
-<!--            <td th:text="${m.count}"></td>-->
-<!--            <td th:text="${m.price}"></td>-->
-<!--        </tr>-->
-    </table>
 
-    <form id="form1" action="/order" method="post">
-        <div>
-                <input hidden id = "dishes" type="text" name="orderList">
-        </div>
-        <div>
-                <input hidden id = "count" type="text" name="counts">
-        </div>
-    </form>
-    <button onclick="getDishesId()">下单</button>
+        <tr th:each="m:${orderList}">
+            <td th:text="${m.id}"></td>
+            <td class="dishesId" th:text="${m.dishesId}"></td>
+            <td th:text="${m.price}"></td>
+            <td th:text="${m.count}"></td>
+            <td th:text="${m.total}"></td>
+        </tr>
+    </table>
 
     <form action="/OrderListPage" method="post">
         <div>
@@ -102,7 +64,6 @@
         </div>
     </form>
 
-    <a href="/dishesIndex">添加菜品</a>
 
 </div>
 </body>

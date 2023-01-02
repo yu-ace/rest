@@ -18,7 +18,7 @@ public class TableService implements ITableService {
     public Table newTable(String name) {
         Table table = new Table();
         table.setName(name);
-        table.setIsDelete(0);
+        table.setStatus(0);
         tableDao.save(table);
         return table;
     }
@@ -26,13 +26,18 @@ public class TableService implements ITableService {
     @Override
     public Table reduceTable(int id) {
         Table table = tableDao.findById(id);
-        table.setIsDelete(1);
+        table.setStatus(1);
         tableDao.save(table);
         return table;
     }
 
     @Override
-    public Page<Table> getTableList(Pageable pageable) {
-        return tableDao.findByIsDelete(0,pageable);
+    public Table getTableById(int tableId) {
+        return tableDao.findById(tableId);
+    }
+
+    @Override
+    public Page<Table> getTableList(int status,Pageable pageable) {
+        return tableDao.findByStatus(status,pageable);
     }
 }

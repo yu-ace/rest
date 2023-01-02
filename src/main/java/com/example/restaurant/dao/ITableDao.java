@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ITableDao extends JpaRepository<Table,Integer> {
         Table findById(int id);
-        Page<Table> findByIsDelete(int isDelete, Pageable pageable);
+        Page<Table> findByStatus(int status, Pageable pageable);
 }
