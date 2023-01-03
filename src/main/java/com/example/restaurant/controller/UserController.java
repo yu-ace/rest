@@ -1,5 +1,6 @@
 package com.example.restaurant.controller;
 
+import com.example.restaurant.model.Customer;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.StyleSheet;
 
 @Controller
 public class UserController {
 
     @Autowired
     IUserService userService;
+
+    @RequestMapping(path= "/login",method = RequestMethod.POST)
+    public String login(
+            @RequestParam(name = "name")
+            String name,
+            @RequestParam(name = "password")
+            String password,Model model,HttpSession session){
+        User user = userService.getUserByName(name);
+        if(user == null){
+            model.addAttribute("error","你已退出系统，请重新登录");
+            return "login";
+        }
+        if(password.equals(user.getPassword())){
+            if(("厨师").equals(user.getIdentity())){
+                session.setAttribute("user",user);
+                return "redirect:/cookBoard";
+            }else{
+                session.setAttribute("user",user);
+                return "redirect:/userBoard";
+            }
+        }else{
+            model.addAttribute("error","密码错误");
+            return "login";
+        }
+    }
 
     @RequestMapping(path = "/userLisePage",method = RequestMethod.POST)
     public String userListPage(

@@ -1,33 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>customer</title>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>loading</title>
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <script src="/jquery-3.6.1.min(1).js"></script>
+  <script>
+    function getPhone(){
+      let a = $("#phone").val()
+      $("#phone1").val(a);
+    }
+  </script>
+  <script>
+    function sendVerification(){
+      let a = $("#phone");
+      let url = "/send?cellphone="+a.val();
+      $.get(url,function (data,status){
+        if(status == "success"){
+          a.textContent = data["code"];
+        }else{
+          console.log("error");
+        }
+      })
+      console.log(a.textContent);
+    }
+  </script>
 </head>
+
 <body>
-<div id="header" style="background-color:#33CCCC;">
-    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+<div>
 
-<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
-    <h1>请注册登陆</h1>
-    <p th:text="${tip}"></p>
+  <div class="container text-center">
+    <h1 >欢迎使用餐厅系统</h1>
+  </div>
 
-    <form action="/regCustomer" method="post">
-        <div>
-            请输入用户名<input type="text" name="name">
-        </div>
-        <div>
-            请输入密码<input type="password" name="password">
-        </div>
-        <div>
-            请输入人数<input type="number" name="count">
-        </div>
-        <div>
-            请输入桌号<input type="number" name="tableId">
-        </div>
-        <input type="submit" value="确定">
+  <div>
+    <h2>登  录</h2>
+    <p th:text="${error}"></p>
+
+      <div class="mb-3">
+        <label class="form-label">请输入手机号</label>
+        <input class="form-control" id="phone" name="cellphone" type="text">
+      </div>
+      <button class="btn btn-primary" onclick="sendVerification()">获取验证码</button>
+    <form action="/checkVerificationCode"  method="post">
+      <div>
+        <input id="phone1" name="phone" type="hidden">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">请输入验证码</label>
+        <input class="form-control" name="code" onfocus="getPhone()" type="text">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">请输入桌号</label>
+        <input class="form-control" name="tableId" type="number">
+      </div>
+      <div>
+        <button class="btn btn-primary" type="submit">确认</button>
+      </div>
     </form>
-
+  </div>
 </div>
-</body>
+  </body>
+
+
 </html>
+

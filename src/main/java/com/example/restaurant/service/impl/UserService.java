@@ -22,24 +22,7 @@ public class UserService implements IUserService {
     @Autowired
     IVerificationCodeDao verificationCodeDao;
 
-    @Override
-    public User newUser(String cellphone) {
-        User user = new User();
-        user.setPhone(cellphone);
-        String a = "qwertyuipkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM0123456789";
-        String name = "";
-        String password = "";
-        Random random = new Random();
-        for(int i = 0;i < 9;i++){
-            name = name + a.charAt(random.nextInt(a.length() - 1));
-            password = password + a.charAt(random.nextInt(a.length() - 1));
-        }
-        user.setName(name);
-        user.setPassword(password);
-        user.setStatus(0);
-        userDao.save(user);
-        return user;
-    }
+
 
     @Override
     public User addUser(String name, String password, String cellphone, String identity) throws Exception {

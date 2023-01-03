@@ -3,14 +3,11 @@ package com.example.restaurant.controller;
 import com.example.restaurant.model.*;
 import com.example.restaurant.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -36,8 +33,9 @@ public class OrderController {
             @RequestParam(name = "orderList")
             String orderLists,
             @RequestParam(name = "counts")
-            String counts,Model model, HttpSession session){
+            String counts,Model model, HttpSession session,HttpSession session1){
         Customer customer = (Customer) session.getAttribute("customer");
+        int tableId = (int) session1.getAttribute("tableId");
         if(customer == null){
             model.addAttribute("tip","");
             return "customer";
@@ -70,8 +68,8 @@ public class OrderController {
             orderItemService.newOrderItem(dishesId,customer.getId(),dishesCount);
         }
         Order order = orderService.getOrderByCustomerId(customer.getId());
-        if(order == null){
-            orderService.createOrder(customer.getId(),orderItemLists,customer.getTableId());
+        if(order == null || "已结账".equals(order.getStatus())){
+            orderService.createOrder(customer.getId(),orderItemLists,tableId);
         }else{
             orderService.addOrder(customer.getId(),orderItemLists);
         }

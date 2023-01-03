@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>dishesIndex</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
         function getCategoryId(){
@@ -13,10 +15,11 @@
 </head>
 
 <body>
-<div id="header" style="background-color:#33CCCC;">
-    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+<div class="container text-center">
+    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1>
+</div>
 
-<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+<div>
     <h1>特色推荐</h1>
     <p th:text="${tip}"></p>
 

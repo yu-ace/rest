@@ -2,7 +2,6 @@ package com.example.restaurant.controller;
 
 import com.example.restaurant.model.Customer;
 import com.example.restaurant.model.Dishes;
-import com.example.restaurant.model.User;
 import com.example.restaurant.service.ICustomerService;
 import com.example.restaurant.service.IDishesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,21 +20,6 @@ public class CustomerController {
     ICustomerService customerService;
     @Autowired
     IDishesService dishesService;
-
-    @RequestMapping(path= "/regCustomer",method = RequestMethod.POST)
-    public String regCustomer(
-            @RequestParam(name = "name")
-            String name,
-            @RequestParam(name = "password")
-            String password,
-            @RequestParam(name = "count")
-            int count,
-            @RequestParam(name = "tableId")
-            int tableId, HttpSession session){
-        Customer customer = customerService.newCustomer(name, password, count, tableId);
-        session.setAttribute("customer",customer);
-        return "redirect:/customerIndex";
-    }
 
     @RequestMapping(path = "/lookingForSomething",method = RequestMethod.POST)
     public String lookingForSomething(

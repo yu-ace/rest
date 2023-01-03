@@ -2,8 +2,10 @@ package com.example.restaurant.service.impl;
 
 import com.example.restaurant.dao.IDishesDao;
 import com.example.restaurant.dao.IOrderItemDao;
+import com.example.restaurant.dao.IShoppingCartDao;
 import com.example.restaurant.model.Dishes;
 import com.example.restaurant.model.OrderItem;
+import com.example.restaurant.model.ShoppingCart;
 import com.example.restaurant.service.IOrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,7 @@ public class OrderItemService implements IOrderItemService {
         orderItem.setTime(new Date());
         orderItem.setStatus("已下单");
         orderItem.setCookId(-1);
+        orderItem.setHistoryOrderItem(0);
         orderItemDao.save(orderItem);
         return orderItem;
     }
@@ -87,4 +90,11 @@ public class OrderItemService implements IOrderItemService {
     public List<OrderItem> getOrderItemByCustomerId(int customerId) {
         return orderItemDao.findByCustomerId(customerId);
     }
+
+    @Override
+    public Page<OrderItem> getOrderItemByCustomerIdAndHistoryOrderItem(int customerId,Pageable pageable) {
+        return orderItemDao.findByCustomerIdAndHistoryOrderItem(customerId,0,pageable);
+    }
+
+
 }

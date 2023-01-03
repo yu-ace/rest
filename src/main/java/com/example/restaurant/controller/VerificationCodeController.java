@@ -1,6 +1,8 @@
 package com.example.restaurant.controller;
 
+import com.example.restaurant.model.Customer;
 import com.example.restaurant.model.User;
+import com.example.restaurant.service.ICustomerService;
 import com.example.restaurant.service.IUserService;
 import com.example.restaurant.service.IVerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class VerificationCodeController {
     @Autowired
     IVerificationCodeService verificationCodeService;
     @Autowired
-    IUserService userService;
+    ICustomerService customerService;
 
     @RequestMapping(path = "sendVerificationCode",method = RequestMethod.POST)
     public String sendVerificationCode(
@@ -31,7 +33,7 @@ public class VerificationCodeController {
             e.printStackTrace();
             model.addAttribute("error",e.getMessage());
         }
-        return "login";
+        return "customer";
     }
 
     @RequestMapping(path = "/checkVerificationCode",method = RequestMethod.POST)
@@ -39,20 +41,19 @@ public class VerificationCodeController {
             @RequestParam(name = "phone")
             String cellPhone,
             @RequestParam(name = "code")
-            String code, Model model, HttpSession session){
+            String code,
+            @RequestParam(name = "tableId")
+            int tableId,
+            Model model, HttpSession session,HttpSession session1){
         try {
-            User user = verificationCodeService.checkVerificationCode(cellPhone, code);
-            if(("厨师").equals(user.getIdentity())){
-                session.setAttribute("user",user);
-                return "redirect:/cookBoard";
-            }else{
-                session.setAttribute("user",user);
-                return "redirect:/userBoard";
-            }
+            Customer customer = verificationCodeService.checkVerificationCode(cellPhone, code);
+            session.setAttribute("customer",customer);
+            session1.setAttribute("tableId",tableId);
+            return "redirect:/customerIndex";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error",e.getMessage());
-            return "login";
+            return "customer";
         }
     }
 

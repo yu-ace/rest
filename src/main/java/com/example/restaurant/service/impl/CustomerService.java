@@ -2,9 +2,12 @@ package com.example.restaurant.service.impl;
 
 import com.example.restaurant.dao.ICustomerDao;
 import com.example.restaurant.model.Customer;
+import com.example.restaurant.model.User;
 import com.example.restaurant.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Random;
 
 @Service
 public class CustomerService implements ICustomerService {
@@ -13,12 +16,16 @@ public class CustomerService implements ICustomerService {
     ICustomerDao customerDao;
 
     @Override
-    public Customer newCustomer(String name, String password, int count, int tableId) {
+    public Customer newCustomer(String cellphone) {
         Customer customer = new Customer();
+        customer.setPhone(cellphone);
+        String a = "qwertyuipkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM0123456789";
+        String name = "";
+        Random random = new Random();
+        for(int i = 0;i < 9;i++){
+            name = name + a.charAt(random.nextInt(a.length() - 1));
+        }
         customer.setName(name);
-        customer.setPassword(password);
-        customer.setCount(count);
-        customer.setTableId(tableId);
         customerDao.save(customer);
         return customer;
     }
@@ -33,8 +40,9 @@ public class CustomerService implements ICustomerService {
         return customerDao.findByName(name);
     }
 
+
     @Override
-    public Customer getCustomerByTableId(int tableId) {
-        return customerDao.findByTableId(tableId);
+    public Customer getCustomerByPhone(String phone) {
+        return customerDao.findByPhone(phone);
     }
 }

@@ -15,4 +15,5 @@ public interface IOrderItemService {
     Page<OrderItem> getOrderItem(Pageable pageable);
     OrderItem reduceOrderItemByCustomer(int dishesId, int customerId, int count);
     List<OrderItem> getOrderItemByCustomerId(int customerId);
+    Page<OrderItem> getOrderItemByCustomerIdAndHistoryOrderItem(int customerId,Pageable pageable);
 }

@@ -30,6 +30,8 @@ public class OrderItem {
     Date time;
     @Column(name = "cook_id")
     Integer cookId;
+    @Column(name = "history_order_item")
+    Integer historyOrderItem;
 
 
     public Integer getId() {
@@ -104,4 +106,11 @@ public class OrderItem {
         this.cookId = cookId;
     }
 
+    public Integer getHistoryOrderItem() {
+        return historyOrderItem;
+    }
+
+    public void setHistoryOrderItem(Integer historyOrderItem) {
+        this.historyOrderItem = historyOrderItem;
+    }
 }

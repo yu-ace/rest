@@ -16,4 +16,5 @@ public interface IOrderItemDao extends JpaRepository<OrderItem,Integer> {
     OrderItem findById(int id);
     OrderItem findByCustomerIdAndDishesId(int customerId, int dishesId);
     List<OrderItem> findByCustomerId(int customerId);
+    Page<OrderItem> findByCustomerIdAndHistoryOrderItem(int customerId,int historyOrderItem,Pageable pageable);
 }

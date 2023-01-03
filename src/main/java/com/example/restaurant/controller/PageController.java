@@ -294,7 +294,7 @@ public class PageController {
             return "customer";
         }
         PageRequest of = PageRequest.of(0,10);
-        Page<OrderItem> orderLists = orderItemService.getOrderItemByCustomerId(customer.getId(),of);
+        Page<OrderItem> orderLists = orderItemService.getOrderItemByCustomerIdAndHistoryOrderItem(customer.getId(),of);
         model.addAttribute("orderList",orderLists);
         return "orderedMenu";
     }

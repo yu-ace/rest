@@ -102,6 +102,23 @@ public class DishesController {
         return "customerIndex";
     }
 
+    @RequestMapping(path = "/dishesListPageByCategoryId",method = RequestMethod.POST)
+    public String dishesListPageByCategoryId(
+            @RequestParam(name = "categoryId")
+            int categoryId,
+            @RequestParam(name = "number")
+            int n,Model model,HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customer");
+        if(customer == null){
+            model.addAttribute("tip","你已退出系统，请重新登录");
+            return "customer";
+        }
+        PageRequest of = PageRequest.of(n, 10);
+        Page<Dishes> dishesPage = dishesService.getDishesListByCategoryId(categoryId, of);
+        model.addAttribute("dishesList",dishesPage);
+        return "customerIndex";
+    }
+
     @ResponseBody
     @RequestMapping(path = "/dishes",method = RequestMethod.GET)
     public Dishes dishes(int dishesId){
@@ -140,4 +157,5 @@ public class DishesController {
         model.addAttribute("dishesList",dishesPage);
         return "addOrder";
     }
+
 }

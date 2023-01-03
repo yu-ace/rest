@@ -14,12 +14,8 @@ public class Customer {
     Integer id;
     @Column(name = "name")
     String name;
-    @Column(name = "password")
-    String password;
-    @Column(name = "count")
-    Integer count;
-    @Column(name = "table_id")
-    Integer tableId;
+    @Column(name = "phone")
+    String phone;
 
     public Integer getId() {
         return id;
@@ -37,27 +33,11 @@ public class Customer {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
-    public Integer getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(Integer tableId) {
-        this.tableId = tableId;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.restaurant.controller;
 
-import com.example.restaurant.model.Category;
 import com.example.restaurant.model.Table;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.ITableService;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 

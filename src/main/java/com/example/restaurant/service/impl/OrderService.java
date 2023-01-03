@@ -80,6 +80,10 @@ public class OrderService implements IOrderService {
             }
         }
         order.setStatus("已结账");
+        for(OrderItem orderItem : orderItemList){
+            orderItem.setHistoryOrderItem(1);
+            orderItemDao.save(orderItem);
+        }
         orderDao.save(order);
         return order;
     }

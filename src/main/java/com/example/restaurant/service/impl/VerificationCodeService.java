@@ -1,8 +1,10 @@
 package com.example.restaurant.service.impl;
 
 import com.example.restaurant.dao.IVerificationCodeDao;
+import com.example.restaurant.model.Customer;
 import com.example.restaurant.model.User;
 import com.example.restaurant.model.VerificationCode;
+import com.example.restaurant.service.ICustomerService;
 import com.example.restaurant.service.ISmsService;
 import com.example.restaurant.service.IUserService;
 import com.example.restaurant.service.IVerificationCodeService;
@@ -21,7 +23,7 @@ public class VerificationCodeService implements IVerificationCodeService {
     @Autowired
     ISmsService smsService;
     @Autowired
-    IUserService userService;
+    ICustomerService customerService;
 
     //定义一个取值范围
     static String a = "abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789012345678901234567890123456789_";
@@ -61,7 +63,7 @@ public class VerificationCodeService implements IVerificationCodeService {
     }
 
     @Override
-    public User checkVerificationCode(String cellphone, String code) throws Exception {
+    public Customer checkVerificationCode(String cellphone, String code) throws Exception {
         List<VerificationCode> verificationCodeList =
                 verificationCodeDao.findByCellphoneAndStatusOrderBySendTimeDesc(cellphone, 0);
         if(!verificationCodeList.isEmpty()){
@@ -74,11 +76,12 @@ public class VerificationCodeService implements IVerificationCodeService {
                     v.setStatus(1);
                 }
                 verificationCodeDao.saveAll(verificationCodeList);
-                User user = userService.getUserByPhone(cellphone);
-                if(user == null){
-                    userService.newUser(cellphone);
+                Customer customer = customerService.getCustomerByPhone(cellphone);
+                if(customer == null){
+                    Customer customer1 = customerService.newCustomer(cellphone);
+                    return customer1;
                 }
-                return user;
+                return customer;
             }else{
                 throw new Exception("验证码错误");
             }

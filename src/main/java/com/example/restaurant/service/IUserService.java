@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IUserService {
-    User newUser(String cellphone);
     User addUser(String name,String password,String cellphone,String identity) throws Exception;
     User resetPassword(String cellphone,String code,String password) throws Exception;
     User getUserById(int id);

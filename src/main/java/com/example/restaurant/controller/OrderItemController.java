@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.PushBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -96,7 +95,8 @@ public class OrderItemController {
             return "customer";
         }
         PageRequest of = PageRequest.of(n, 10);
-        Page<OrderItem> orderItemPage = orderItemService.getOrderItemByCustomerId(customer.getId(), of);
+        Page<OrderItem> orderItemPage = orderItemService.
+                getOrderItemByCustomerIdAndHistoryOrderItem(customer.getId(), of);
         model.addAttribute("orderList",orderItemPage);
         return "orderedMenu";
     }
@@ -185,6 +185,7 @@ public class OrderItemController {
         Dishes dishes = dishesService.getDishesById(dishesId);
         try {
             OrderItem orderItem = orderItemService.getOrderItemByDishesIdAndCustomerId(dishesId,customer.getId());
+            orderItemService.reduceOrderItemByCustomer(dishesId,customer.getId(),count);
             if(count < orderItem.getCount()){
                 orderItem.setCount(count);
                 orderItem.setTotal(count * dishes.getPrice());
@@ -193,7 +194,6 @@ public class OrderItemController {
                 orderItem.setTotal(orderItem.getCount() * dishes.getPrice());
             }
             orderItems.add(orderItem);
-            orderItemService.reduceOrderItemByCustomer(dishesId,customer.getId(),count);
             orderService.reduceOrder(customer.getId(),orderItems);
             Statistics statistics = statisticsService.getStatisticsByDishesId(dishesId);
             if(statistics == null){
