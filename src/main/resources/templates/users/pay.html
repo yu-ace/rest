@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>bill</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <script src="/jquery-3.6.1.min(1).js"></script>
+    <script>
+        function getTableId() {
+            let a = $("#tableId").text();
+            $("#tableId1").val(a);
+        }
+    </script>
+    <script>
+        function getTableIdAndCustomerId() {
+            let b = $("#customerId").text();
+            $("#customerId1").val(b);
+        }
+    </script>
+</head>
+<body>
+
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
+</div>
+
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>账单管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/pay">结账</a>
+                </div>
+                <div class="list-group">
+                    <b>系统管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/dishesList">管理菜单</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/addDishesList">添加菜品</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/orderItemForUser">查看订单额</a>
+                </div>
+                <div class="list-group">
+                    <b>用户管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/userList">在职员工列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/newUser">新员工注册</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/changeUserInformation">更改员工信息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/deleteUser">删除用户</a>
+                </div>
+                <div class="list-group">
+                    <b>桌子管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/tableList">桌子列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/table">桌子管理</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/login">退出</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="content">
+                <h2>结账</h2>
+                <p th:text="${tip}"></p>
+                <form action="/orderByTableId" method="post">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="i1" type="number" name="tableId" placeholder="xxx">
+                                <label for="i1">请输入桌号:</label>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-floating ">
+                                <button class="btn btn-outline-success form-control" type="submit">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">顾客Id</th>
+                        <th scope="col">桌号</th>
+                        <th scope="col">总价</th>
+                        <th scope="col">支付状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="m:${order}">
+                        <td th:text="${m.id}"></td>
+                        <td id="customerId" th:text="${m.customerId}"></td>
+                        <td id="tableId" th:text="${m.tableId}"></td>
+                        <td th:text="${m.total}"></td>
+                        <td th:text="${m.status}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-3">
+                        <form action="/orderedByCustomer" method="post">
+                            <input id="customerId1" type="hidden" name="customerId">
+                            <button onclick="getTableIdAndCustomerId()" type="submit" class="btn btn-success">查看订单列表
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-3">
+                        <form id="form" action="/payOrder" method="post">
+                            <input id="tableId1" type="hidden" name="tableId">
+                            <button onclick="getTableId()" type="submit" class="btn btn-success">结账</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

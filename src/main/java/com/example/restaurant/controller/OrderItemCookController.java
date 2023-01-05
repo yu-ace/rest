@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -26,40 +27,26 @@ public class OrderItemCookController {
     @RequestMapping(path = "startCooking",method = RequestMethod.POST)
     public String startCooking(
             @RequestParam(name = "category")
-            String name, Model model, HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            String name, Model model){
         PageRequest of = PageRequest.of(0, 10);
         Page<OrderItemForCook> orderItemForCooks =
                 orderListCookService.getOrderListBookByCategoryAndStatus(name, "已下单", of);
         model.addAttribute("orderListForCook",orderItemForCooks);
-        return "startCooking";
+        return "users/startCooking";
     }
 
     @RequestMapping(path = "/finishCooking",method = RequestMethod.POST)
     public String finishCooking(
             @RequestParam(name = "id")
-            int id,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int id, Model model, HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
         orderListService.finialOrderItem(id, user.getId());
         model.addAttribute("tip","请制作下一道菜");
-        return "startCooking";
+        return "users/startCooking";
     }
 
     @RequestMapping(path = "/rest",method = RequestMethod.POST)
-    public String rest(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "startCooking";
+    public String rest(){
+        return "users/startCooking";
     }
 }

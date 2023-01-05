@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,13 +34,9 @@ public class OrderController {
             @RequestParam(name = "orderList")
             String orderLists,
             @RequestParam(name = "counts")
-            String counts,Model model, HttpSession session,HttpSession session1){
-        Customer customer = (Customer) session.getAttribute("customer");
-        int tableId = (int) session1.getAttribute("tableId");
-        if(customer == null){
-            model.addAttribute("tip","");
-            return "customer";
-        }
+            String counts, Model model, HttpServletRequest request, HttpSession session){
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
+        int tableId = (int) session.getAttribute("tableId");
         String[] dishesIds = orderLists.split(",");
         String[] dishCounts = counts.split(",");
         List<OrderItem> orderItemLists = new ArrayList<>();
@@ -74,45 +71,35 @@ public class OrderController {
             orderService.addOrder(customer.getId(),orderItemLists);
         }
         model.addAttribute("tip","下单成功");
-        return "customerIndex";
+        return "customer/customerIndex";
     }
 
     @RequestMapping(path = "/orderByTableId",method = RequestMethod.POST)
     public String orderByTableId(
             @RequestParam(name= "tableId")
-            int tableId,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int tableId, Model model){
         Order order = orderService.getOrderByTableId(tableId);
         if(order == null){
             model.addAttribute("tip","该桌没有需要支付的账单");
-            return "pay";
+            return "users/pay";
         }
         model.addAttribute("order",order);
-        return "pay";
+        return "users/pay";
     }
 
 
     @RequestMapping(path = "/payOrder",method = RequestMethod.POST)
     public String payOrder(
             @RequestParam(name = "tableId")
-            int tableId,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int tableId,Model model){
         try {
             orderService.payOrder(tableId);
             model.addAttribute("tip","支付成功");
-            return "pay";
+            return "users/pay";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("tip",e.getMessage());
-            return "pay";
+            return "users/pay";
         }
 
     }

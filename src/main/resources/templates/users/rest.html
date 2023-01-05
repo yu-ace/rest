@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>rest</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
+</div>
+
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>功能选择</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/startCooking">做菜</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/rest">休息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/login">下班</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="content">
+                <h1>您已进入休息时间，点击下方按钮继续接单</h1>
+                <form action="/rest" method="post">
+                    <div class="form-floating">
+                        <button class="btn btn-outline-success" type="submit">继续接单</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

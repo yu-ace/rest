@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,30 +39,22 @@ public class OrderItemController {
             @RequestParam(name = "id")
             int dishesId,
             @RequestParam(name = "count")
-            int count, Model model, HttpSession session){
-        Customer customer = (Customer) session.getAttribute("customer");
-        if(customer == null){
-            model.addAttribute("tip","你已退出系统，请重新登录");
-            return "customer";
-        }
+            int count, Model model, HttpServletRequest request){
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
         shoppingCartService.createShoppingItem(dishesId,count,customer.getId());
         model.addAttribute("tip","添加成功");
-        return "customerIndex";
+        return "customer/customerIndex";
     }
 
     @RequestMapping(path = "/shoppingItemPage",method = RequestMethod.POST)
     public String shoppingItemPage(
             @RequestParam(name = "number")
-            int n,Model model,HttpSession session){
-        Customer customer = (Customer) session.getAttribute("customer");
-        if(customer == null){
-            model.addAttribute("tip","你已退出系统，请重新登陆");
-            return "customer";
-        }
+            int n,Model model,HttpServletRequest request){
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
         PageRequest of = PageRequest.of(n, 10);
         Page<ShoppingCart> shoppingItemPage = shoppingCartService.getShoppingItemPage(customer.getId(), 0, of);
         model.addAttribute("shoppingItem",shoppingItemPage);
-        return "shoppingCart";
+        return "customer/shoppingCart";
     }
 
     @RequestMapping(path = "/reduceShoppingItem",method = RequestMethod.POST)
@@ -69,68 +62,50 @@ public class OrderItemController {
             @RequestParam(name = "id")
             int dishesId,
             @RequestParam(name = "count")
-            int count,Model model,HttpSession session){
-        Customer customer = (Customer) session.getAttribute("customer");
-        if(customer == null){
-            model.addAttribute("tip","你已退出系统，请重新登陆");
-            return "customer";
-        }
+            int count,Model model,HttpServletRequest request){
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
         try {
             shoppingCartService.changeShoppingItem(dishesId,customer.getId(),count);
             model.addAttribute("tip","更改成功");
-            return "shoppingCart";
+            return "customer/shoppingCart";
         } catch (Exception e) {
             model.addAttribute("tip",e.getMessage());
-            return "shoppingCart";
+            return "customer/shoppingCart";
         }
     }
 
     @RequestMapping(path = "/OrderListPage",method = RequestMethod.POST)
     public String OrderListPage(
             @RequestParam(name= "number")
-            int n,Model model,HttpSession session){
-        Customer customer = (Customer) session.getAttribute("customer");
-        if(customer == null){
-            model.addAttribute("tip","你已退出系统，请重新登录");
-            return "customer";
-        }
+            int n,Model model,HttpServletRequest request){
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
         PageRequest of = PageRequest.of(n, 10);
         Page<OrderItem> orderItemPage = orderItemService.
                 getOrderItemByCustomerIdAndHistoryOrderItem(customer.getId(), of);
         model.addAttribute("orderList",orderItemPage);
-        return "orderedMenu";
+        return "customer/orderedMenu";
     }
 
     @RequestMapping(path = "/orderedByCustomer",method = RequestMethod.POST)
     public String orderedByCustomer(
             @RequestParam(name = "customerId")
-            int customerId,Model model,HttpSession session,HttpSession session1){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int customerId,Model model,HttpSession session){
         PageRequest of = PageRequest.of(0, 10);
         Page<OrderItem> orderItems = orderItemService.getOrderItemByCustomerId(customerId, of);
         model.addAttribute("orderItems",orderItems);
-        session1.setAttribute("customer",customerService.getCustomerById(customerId));
-        return "orderedByCustomer";
+        session.setAttribute("customer",customerService.getCustomerById(customerId));
+        return "users/orderedByCustomer";
     }
 
     @RequestMapping(path = "/orderItemsPage",method = RequestMethod.POST)
     public String orderItemsPage(
             @RequestParam(name = "number")
-            int n,Model model,HttpSession session,HttpSession session1){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        Customer customer = (Customer) session1.getAttribute("customer");
+            int n,Model model,HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customer");
         PageRequest of = PageRequest.of(n, 10);
         Page<OrderItem> orderItems = orderItemService.getOrderItemByCustomerId(customer.getId(), of);
         model.addAttribute("orderItems",orderItems);
-        return "orderedByCustomer";
+        return "users/orderedByCustomer";
     }
 
     @RequestMapping(path = "/addOrderItem",method = RequestMethod.POST)
@@ -138,13 +113,8 @@ public class OrderItemController {
             @RequestParam(name = "dishesId")
             int dishesId,
             @RequestParam(name = "number")
-            int n,Model model,HttpSession session,HttpSession session1){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        Customer customer = (Customer) session1.getAttribute("customer");
+            int n,Model model,HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customer");
         orderItemService.newOrderItem(dishesId,customer.getId(),n);
         List<OrderItem> orderItems = new ArrayList<>();
         Dishes dishes = dishesService.getDishesById(dishesId);
@@ -166,7 +136,7 @@ public class OrderItemController {
             statisticsService.addStatistics(dishesId,n);
         }
         model.addAttribute("tip","添加成功");
-        return "addOrder";
+        return "users/addOrder";
     }
 
     @RequestMapping(path = "/reduceOrderItem",method = RequestMethod.POST)
@@ -174,13 +144,8 @@ public class OrderItemController {
             @RequestParam(name = "dishesId")
             int dishesId,
             @RequestParam(name = "count")
-            int count,Model model,HttpSession session,HttpSession session1){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        Customer customer = (Customer) session1.getAttribute("customer");
+            int count,Model model,HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customer");
         List<OrderItem> orderItems = new ArrayList<>();
         Dishes dishes = dishesService.getDishesById(dishesId);
         try {
@@ -202,11 +167,11 @@ public class OrderItemController {
                 statisticsService.reduceStatistics(dishesId,count);
             }
             model.addAttribute("tip","删除成功");
-            return "reduceOrder";
+            return "users/reduceOrder";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("tip",e.getMessage());
-            return "reduceOrder";
+            return "users/reduceOrder";
         }
     }
 }

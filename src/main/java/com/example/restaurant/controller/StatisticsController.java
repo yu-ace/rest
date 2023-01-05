@@ -24,27 +24,17 @@ public class StatisticsController {
     @RequestMapping(path = "/statisticsListPage",method = RequestMethod.POST)
     public String statisticsListPage(
             @RequestParam(name = "number")
-            int n, Model model, HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登陆");
-            return "login";
-        }
+            int n, Model model){
         PageRequest of = PageRequest.of(n, 10);
         Page<Statistics> statisticsList = statisticsService.getStatisticsList(of);
         model.addAttribute("statisticsList",statisticsList);
-        return "orderItemForUser";
+        return "users/orderItemForUser";
     }
 
     @RequestMapping(path = "/statisticsListOrderBy",method = RequestMethod.POST)
     public String statisticsListOrderBy(
             @RequestParam(name = "change")
-            int n,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登陆");
-            return "login";
-        }
+            int n,Model model){
         List<Statistics> statisticsPage = null;
         switch (n){
             case 1:
@@ -58,6 +48,6 @@ public class StatisticsController {
                 break;
         }
         model.addAttribute("statisticsList",statisticsPage);
-        return "orderItemForUser";
+        return "users/orderItemForUser";
     }
 }

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>startCooking</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
+</div>
+
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>功能选择</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/startCooking">做菜</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/rest">休息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/login">下班</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="content">
+                <p>开始做菜</p>
+                <p th:text="${tip}"></p>
+
+
+                <form action="/startCooking" method="post">
+                    <div>
+                        <label>
+                            请选择种类<select name="category" class="form-select">
+                            <option value="特色推荐" selected>特色推荐</option>
+                            <option value="凉菜">凉菜</option>
+                            <option value="蒸菜">蒸菜</option>
+                            <option value="经典小炒">经典小炒</option>
+                            <option value="羹汤小池">羹汤小池</option>
+                            <option value="主食">主食</option>
+                        </select>
+                        </label>
+                        <input class="btn btn-success" type="submit" value="确定">
+                    </div>
+                </form>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">菜品编号</th>
+                        <th scope="col">菜品名称</th>
+                        <th scope="col">菜品类别</th>
+                        <th scope="col">数量</th>
+                        <th scope="col">状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="m:${orderListForCook}">
+                        <td th:text="${m.id}"></td>
+                        <td th:text="${m.dishesId}"></td>
+                        <td th:text="${m.dishesName}"></td>
+                        <td th:text="${m.categoryName}"></td>
+                        <td th:text="${m.count}"></td>
+                        <td th:text="${m.status}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <form action="/finishCooking" method="post">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="i1" type="number" name="id" placeholder="xxx">
+                                <label for="i1">请输入你完成的菜品对应的id:</label>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="form-floating ">
+                                <button class="btn btn-outline-success btn-lg" type="submit">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
