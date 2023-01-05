@@ -23,44 +23,29 @@ public class TableController {
     @RequestMapping(path = "/tableListPage",method = RequestMethod.POST)
     public String tableListPage(
             @RequestParam(name = "number")
-            int n, Model model, HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int n, Model model){
         PageRequest of = PageRequest.of(n, 10);
         Page<Table> tableList = tableService.getTableList(0,of);
         model.addAttribute("tableList",tableList);
-        return "tableList";
+        return "users/tableList";
     }
 
     @RequestMapping(path = "/addTable",method = RequestMethod.POST)
     public String addTable(
             @RequestParam(name = "name")
-            String name,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            String name,Model model){
         tableService.newTable(name);
         model.addAttribute("tip","添加成功");
-        return "table";
+        return "users/table";
     }
 
     @RequestMapping(path = "/reduceTable",method = RequestMethod.POST)
     public String reduceTable(
             @RequestParam(name = "id")
-            int id,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int id,Model model){
         tableService.reduceTable(id);
         model.addAttribute("tip","删除成功");
-        return "table";
+        return "users/table";
     }
 
 }

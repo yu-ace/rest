@@ -3,30 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>orderedByCustomer</title>
+    <title>changeUserInformation</title>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
-        function getDishesName(){
-            let a = $(".dishesId");
-            for(let i = 0;i < a.length;i++){
-                let aa = a[i];
-                let url = "/dishes?dishesId=" + aa.textContent;
-                $.get(url,function (data,status){
-                    if(status == "success"){
-                        aa.textContent = data["name"];
-                    }else{
-                        console.log("error");
-                    }
+        function getVerification() {
+            let a = $("#cellphone");
+            let url = "/send?cellphone=" + a.val();
+            $.get(url, function (data, status) {
+                if (status == "success") {
+                    a.textContent = data["code"];
+                } else {
+                    console.log("error");
+                }
+            })
+            console.log(a.textContent);
+        }
+    </script>
+    <script>
+        function checkPassword() {
+            let a = $("#p1").val();
+            let b = $("#p2").val();
+            if (a != b) {
+                alert("两次密码不同");
+                $("#1").submit(function () {
+                    return false;
                 })
-                console.log(aa.textContent);
             }
         }
     </script>
-
 </head>
-<body onload="getDishesName()">
-
+<body>
 
 <div class="row text-center" id="header">
     <h1>欢迎使用餐厅系统</h1>
@@ -72,51 +79,31 @@
         </div>
         <div class="col-10">
             <div id="content">
-                <h2>清单</h2>
+                <h2>重置密码</h2>
                 <p th:text="${tip}"></p>
 
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">菜品id</th>
-                        <th scope="col">菜名</th>
-                        <th scope="col">单价</th>
-                        <th scope="col">数量</th>
-                        <th scope="col">总价</th>
-                        <th scope="col">状态</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="m:${orderItems}">
-                        <td th:text="${m.id}"></td>
-                        <td th:text="${m.dishesId}"></td>
-                        <td class="dishesId" th:text="${m.dishesId}"></td>
-                        <td th:text="${m.price}"></td>
-                        <td th:text="${m.count}"></td>
-                        <td th:text="${m.total}"></td>
-                        <td th:text="${m.status}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <form action="/orderItemsPage" method="post">
-                    <div>
-                        <label>
-                            请选择页数<select name="number" class="form-select">
-                            <option value="0" selected>1</option>
-                            <option value="1">2</option>
-                        </select>
-                        </label>
-                        <button class="btn btn-success" type="submit">确定</button>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="cellphone" type="text" name="phone" placeholder="xxx">
+                    <label for="cellphone">请输入手机号:</label>
+                </div>
+                <button onclick="getVerification()" class="btn btn-outline-success form-control">获取验证码</button>
+                <form action="/changePassword" method="post">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="i1" type="text" name="code" placeholder="xxx">
+                        <label for="i1">请输入验证码:</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="password" id="p1" placeholder="xxx">
+                        <label for="p1">请输入新密码:</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" onblur="checkPassword()" type="password" name="password" id="p2"
+                               placeholder="xxx">
+                        <label for="p2">请输入新密码:</label>
+                    </div>
+                    <button id="1" class="btn btn-outline-success form-control" type="submit">确定</button>
                 </form>
-                <a href="/pay">返回</a>
-                <a href="/addOrder">添加订单项</a>
-                <a href="/reduceOrder">删除订单项</a>
             </div>
         </div>
     </div>
 </div>
-</body>
-</html>

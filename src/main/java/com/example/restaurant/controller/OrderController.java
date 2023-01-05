@@ -80,39 +80,29 @@ public class OrderController {
     @RequestMapping(path = "/orderByTableId",method = RequestMethod.POST)
     public String orderByTableId(
             @RequestParam(name= "tableId")
-            int tableId,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int tableId, Model model){
         Order order = orderService.getOrderByTableId(tableId);
         if(order == null){
             model.addAttribute("tip","该桌没有需要支付的账单");
-            return "pay";
+            return "users/pay";
         }
         model.addAttribute("order",order);
-        return "pay";
+        return "users/pay";
     }
 
 
     @RequestMapping(path = "/payOrder",method = RequestMethod.POST)
     public String payOrder(
             @RequestParam(name = "tableId")
-            int tableId,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int tableId,Model model){
         try {
             orderService.payOrder(tableId);
             model.addAttribute("tip","支付成功");
-            return "pay";
+            return "users/pay";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("tip",e.getMessage());
-            return "pay";
+            return "users/pay";
         }
 
     }

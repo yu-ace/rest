@@ -138,13 +138,8 @@ public class OrderItemController {
             @RequestParam(name = "dishesId")
             int dishesId,
             @RequestParam(name = "number")
-            int n,Model model,HttpSession session,HttpSession session1){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        Customer customer = (Customer) session1.getAttribute("customer");
+            int n,Model model,HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customer");
         orderItemService.newOrderItem(dishesId,customer.getId(),n);
         List<OrderItem> orderItems = new ArrayList<>();
         Dishes dishes = dishesService.getDishesById(dishesId);
@@ -166,7 +161,7 @@ public class OrderItemController {
             statisticsService.addStatistics(dishesId,n);
         }
         model.addAttribute("tip","添加成功");
-        return "addOrder";
+        return "users/addOrder";
     }
 
     @RequestMapping(path = "/reduceOrderItem",method = RequestMethod.POST)
@@ -174,13 +169,8 @@ public class OrderItemController {
             @RequestParam(name = "dishesId")
             int dishesId,
             @RequestParam(name = "count")
-            int count,Model model,HttpSession session,HttpSession session1){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        Customer customer = (Customer) session1.getAttribute("customer");
+            int count,Model model,HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customer");
         List<OrderItem> orderItems = new ArrayList<>();
         Dishes dishes = dishesService.getDishesById(dishesId);
         try {
@@ -202,11 +192,11 @@ public class OrderItemController {
                 statisticsService.reduceStatistics(dishesId,count);
             }
             model.addAttribute("tip","删除成功");
-            return "reduceOrder";
+            return "users/reduceOrder";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("tip",e.getMessage());
-            return "reduceOrder";
+            return "users/reduceOrder";
         }
     }
 }

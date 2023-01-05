@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>orderedByCustomer</title>
+    <title>orderItemForUser</title>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
-        function getDishesName(){
+        function getDishesName() {
             let a = $(".dishesId");
-            for(let i = 0;i < a.length;i++){
+            for (let i = 0; i < a.length; i++) {
                 let aa = a[i];
                 let url = "/dishes?dishesId=" + aa.textContent;
-                $.get(url,function (data,status){
-                    if(status == "success"){
+                $.get(url, function (data, status) {
+                    if (status == "success") {
                         aa.textContent = data["name"];
-                    }else{
+                    } else {
                         console.log("error");
                     }
                 })
@@ -23,9 +23,25 @@
             }
         }
     </script>
-
+    <script>
+        function getCategoryName() {
+            let a = $(".categoryId");
+            for (let i = 0; i < a.length; i++) {
+                let aa = a[i];
+                let url = "/category?categoryId=" + aa.textContent;
+                $.get(url, function (data, status) {
+                    if (status == "success") {
+                        aa.textContent = data["name"];
+                    } else {
+                        console.log("error");
+                    }
+                })
+                console.log(aa.textContent);
+            }
+        }
+    </script>
 </head>
-<body onload="getDishesName()">
+<body onload="getDishesName();getCategoryName()">
 
 
 <div class="row text-center" id="header">
@@ -72,35 +88,46 @@
         </div>
         <div class="col-10">
             <div id="content">
-                <h2>清单</h2>
+                <h2>查看订单额</h2>
                 <p th:text="${tip}"></p>
+
+                <form action="/statisticsListOrderBy" method="post">
+                    <div>
+                        <label>
+                            筛选<select name="change" class="form-select">
+                            <option value="1" selected>数量</option>
+                            <option value="2">单价</option>
+                            <option value="3">总价</option>
+                        </select>
+                        </label>
+                        <button class="btn btn-success" type="submit">确定</button>
+                    </div>
+                </form>
 
                 <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">id</th>
-                        <th scope="col">菜品id</th>
-                        <th scope="col">菜名</th>
-                        <th scope="col">单价</th>
+                        <th scope="col">菜品名</th>
+                        <th scope="col">菜品种类</th>
                         <th scope="col">数量</th>
+                        <th scope="col">单价</th>
                         <th scope="col">总价</th>
-                        <th scope="col">状态</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="m:${orderItems}">
+                    <tr th:each="m:${statisticsList}">
                         <td th:text="${m.id}"></td>
-                        <td th:text="${m.dishesId}"></td>
                         <td class="dishesId" th:text="${m.dishesId}"></td>
-                        <td th:text="${m.price}"></td>
+                        <td class="categoryId" th:text="${m.categoryId}"></td>
                         <td th:text="${m.count}"></td>
+                        <td th:text="${m.price}"></td>
                         <td th:text="${m.total}"></td>
-                        <td th:text="${m.status}"></td>
                     </tr>
                     </tbody>
                 </table>
 
-                <form action="/orderItemsPage" method="post">
+                <form action="/statisticsListPage" method="post">
                     <div>
                         <label>
                             请选择页数<select name="number" class="form-select">
@@ -111,9 +138,6 @@
                         <button class="btn btn-success" type="submit">确定</button>
                     </div>
                 </form>
-                <a href="/pay">返回</a>
-                <a href="/addOrder">添加订单项</a>
-                <a href="/reduceOrder">删除订单项</a>
             </div>
         </div>
     </div>

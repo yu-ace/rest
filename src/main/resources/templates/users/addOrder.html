@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>addOrder</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <script src="/jquery-3.6.1.min(1).js"></script>
+    <script>
+        function getCategoryId() {
+            let a = $("#category").val();
+            $("#category1").val(a);
+        }
+    </script>
+</head>
+<body>
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
+</div>
+
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>账单管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/pay">结账</a>
+                </div>
+                <div class="list-group">
+                    <b>系统管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/dishesList">管理菜单</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/addDishesList">添加菜品</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/orderItemForUser">查看订单额</a>
+                </div>
+                <div class="list-group">
+                    <b>用户管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/userList">在职员工列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/newUser">新员工注册</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/changeUserInformation">更改员工信息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/deleteUser">删除用户</a>
+                </div>
+                <div class="list-group">
+                    <b>桌子管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/tableList">桌子列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/table">桌子管理</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/login">退出</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="content">
+                <h2>菜单列表</h2>
+                <p th:text="${tip}"></p>
+                <form action="/dishesByCategoryId" method="post">
+                    <div class="row">
+                        <div class="col-3">
+                            <label>
+                                <select class="form-select" id="category" name="categoryId"
+                                        aria-label="Default select example">
+                                    <option value="1">特色推荐</option>
+                                    <option value="2">凉菜</option>
+                                    <option value="3">蒸菜</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-9">
+                            <div class="form-floating ">
+                                <button class="btn btn-outline-success" type="submit">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">菜品名</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="m:${dishesList}">
+                        <td th:text="${m.id}"></td>
+                        <td th:text="${m.name}"></td>
+                    </tr>
+                </table>
+                <form action="/dishesByCategoryIdPage" method="post">
+                    <input id="category1" type="hidden" name="categoryId">
+                    <div class="row">
+                        <div class="col-3">
+                            <label>
+                                请输入页数
+                                <select class="form-select" name="number"
+                                        aria-label="Default select example">
+                                    <option value="0">1</option>
+                                    <option value="1">2</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-9">
+                            <div class="form-floating ">
+                                <button onclick="getCategoryId()" class="btn btn-outline-success"
+                                        type="submit">确定
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <h3>添加菜品</h3>
+                <form action="/addOrderItem" method="post">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="i1" type="text" name="dishesId" placeholder="xxx">
+                                <label for="i1">请输入菜品id:</label>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="i2" type="text" name="number" placeholder="xxx">
+                                <label for="i2">请输入菜品数量:</label>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-floating ">
+                                <button class="btn btn-outline-success form-control" type="submit">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

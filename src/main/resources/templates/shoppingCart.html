@@ -2,18 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>shoppingCart</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
-        function getDishesName(){
+        function getDishesName() {
             let a = $(".dishesName");
-            for(let i = 0;i < a.length;i++){
+            for (let i = 0; i < a.length; i++) {
                 let aa = a[i];
                 let url = "/dishes?dishesId=" + aa.textContent;
-                $.get(url,function (data,status){
-                    if(status == "success"){
+                $.get(url, function (data, status) {
+                    if (status == "success") {
                         aa.textContent = data["name"];
-                    }else{
+                    } else {
                         console.log("error")
                     }
                 })
@@ -22,15 +24,15 @@
         }
     </script>
     <script>
-        function getDishesPrice(){
+        function getDishesPrice() {
             let b = $(".dishesPrice");
-            for(let i = 0;i < b.length;i++){
+            for (let i = 0; i < b.length; i++) {
                 let bb = b[i];
                 let url = "/dishes?dishesId=" + bb.textContent;
-                $.get(url,function (data,status){
-                    if(status == "success"){
+                $.get(url, function (data, status) {
+                    if (status == "success") {
                         bb.textContent = data["price"];
-                    }else{
+                    } else {
                         console.log("error");
                     }
                 })
@@ -39,17 +41,17 @@
         }
     </script>
     <script>
-        function orderShoppingCart(){
+        function orderShoppingCart() {
             let a = $(".dishes");
             let b = "";
-            for(let i = 0;i < a.length;i++){
+            for (let i = 0; i < a.length; i++) {
                 let aa = a[i];
                 b = b + aa.textContent + ",";
             }
             $("#dishesId").val(b);
             let c = $(".dishesCount");
             let d = "";
-            for(let i = 0;i < c.length;i++){
+            for (let i = 0; i < c.length; i++) {
                 let cc = c[i];
                 d = d + cc.textContent + ",";
             }
@@ -60,33 +62,48 @@
 </head>
 
 <body onload="getDishesName();getDishesPrice()">
-<div id="header" style="background-color:#33CCCC;">
-    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
+</div>
 
-<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
-
+<div>
 
     <h2>购物车</h2>
     <p th:text="${tip}"></p>
 
     <form action="/reduceShoppingItem" method="post">
-        <div>
-            请输入需要减少的菜品id<input type="number" name="id">
+        <div class="row">
+            <div class="col-5">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="i1" type="number" name="id" placeholder="xxx">
+                    <label for="i1">请输入需要减少的菜品id:</label>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="i2" type="number" name="count" placeholder="xxx">
+                    <label for="i2">请输入需要减少的菜品数量:</label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-floating ">
+                    <button class="btn btn-outline-success form-control" type="submit">确定</button>
+                </div>
+            </div>
         </div>
-        <div>
-            请输入需要减少的菜品数量<input type="number" name="count">
-        </div>
-        <button type="submit">确定</button>
     </form>
 
-    <table border="1">
+    <table class="table table-striped">
+        <thead>
         <tr>
-            <th>id</th>
-            <th>菜品id</th>
-            <th>菜品名</th>
-            <th>数量</th>
-            <th>单价</th>
+            <th scope="col">id</th>
+            <th scope="col">菜品id</th>
+            <th scope="col">菜品名</th>
+            <th scope="col">数量</th>
+            <th scope="col">单价</th>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="m:${shoppingItem}">
             <td th:text="${m.id}"></td>
             <td class="dishes" th:text="${m.dishesId}"></td>
@@ -94,17 +111,18 @@
             <td class="dishesCount" th:text="${m.count}"></td>
             <td class="dishesPrice" th:text="${m.dishesId}"></td>
         </tr>
+        </tbody>
     </table>
 
     <form action="/shoppingItemPage" method="post">
         <div>
             <label>
-                请选择页数<select name="number">
-                <option value="0">1</option>
+                请选择页数<select name="number" class="form-select">
+                <option value="0" selected>1</option>
                 <option value="1">2</option>
             </select>
             </label>
-            <input type="submit" value="确定">
+            <button class="btn btn-success" type="submit">确定</button>
         </div>
     </form>
 
@@ -115,7 +133,7 @@
         <div>
             <input id="count" type="hidden" name="counts">
         </div>
-        <button onclick="orderShoppingCart()">下单</button>
+        <button class="btn btn-success" onclick="orderShoppingCart()">下单</button>
     </form>
 
     <a href="/customerIndex">返回菜单</a>

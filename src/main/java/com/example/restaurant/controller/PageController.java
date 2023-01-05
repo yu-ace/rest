@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -42,196 +43,106 @@ public class PageController {
     }
 
     @RequestMapping(path = "/userBoard",method = RequestMethod.GET)
-    public String userBoard(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登陆");
-            return "login";
-        }
+    public String userBoard(Model model, HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
         model.addAttribute("user",user);
-        return "userBoard";
+        return "users/userBoard";
     }
 
     @RequestMapping(path = "/dishesList",method = RequestMethod.GET)
-    public String dishes(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+    public String dishes(Model model){
         PageRequest of = PageRequest.of(0,10);
         Page<Dishes> dishesList = dishesService.getDishesList(of);
         model.addAttribute("dishesList",dishesList);
-        return "dishes";
+        return "users/dishes";
     }
 
     @RequestMapping(path = "/addDishesList",method = RequestMethod.GET)
-    public String addDishesList(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "addDishesList";
+    public String addDishesList(){
+        return "users/addDishesList";
     }
 
-//    @RequestMapping(path = "/orderItemForUser",method = RequestMethod.GET)
-//    public String orderItemForUser(Model model,HttpSession session){
-//        User user = (User) session.getAttribute("user");
-//        if(user == null){
-//            model.addAttribute("error","你已退出系统，请重新登录");
-//            return "login";
-//        }
-//        PageRequest of = PageRequest.of(0, 10);
-//        Page<OrderItem> orderItem = orderItemService.getOrderItem(of);
-//        model.addAttribute("orderItem",orderItem);
-//        return "orderItemForUser";
-//    }
 
     @RequestMapping(path = "/userList",method = RequestMethod.GET)
-    public String userList(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+    public String userList(Model model){
         PageRequest of = PageRequest.of(0, 10);
         Page<User> userList = userService.getUserList(of);
         model.addAttribute("userList",userList);
-        return "userList";
+        return "users/userList";
     }
 
     @RequestMapping(path = "/changeUserInformation",method = RequestMethod.GET)
-    public String changeUserInformation(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "changeUserInformation";
+    public String changeUserInformation(){
+        return "users/changeUserInformation";
     }
 
     @RequestMapping(path = "/newUser",method = RequestMethod.GET)
-    public String newUser(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "newUser";
+    public String newUser(){
+        return "users/newUser";
     }
 
     @RequestMapping(path = "/deleteUser",method = RequestMethod.GET)
-    public String deleteUser(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "deleteUser";
+    public String deleteUser(){
+        return "users/deleteUser";
     }
 
     @RequestMapping(path = "/tableList",method = RequestMethod.GET)
-    public String tableList(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+    public String tableList(Model model){
         PageRequest of = PageRequest.of(0, 10);
         Page<Table> tableList = tableService.getTableList(0,of);
         model.addAttribute("tableList",tableList);
-        return "tableList";
+        return "users/tableList";
     }
 
     @RequestMapping(path = "/table",method = RequestMethod.GET)
-    public String table(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "table";
+    public String table(){
+        return "users/table";
     }
 
     @RequestMapping(path = "/pay",method = RequestMethod.GET)
-    public String bill(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+    public String bill(Model model){
         PageRequest of = PageRequest.of(0, 10);
         Page<Order> orderList = orderService.getOrderList(of);
         model.addAttribute("orderList",orderList);
-        return "pay";
+        return "users/pay";
     }
 
     @RequestMapping(path = "/orderItemForUser",method = RequestMethod.GET)
-    public String orderItemForUser(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+    public String orderItemForUser(Model model){
         PageRequest of = PageRequest.of(0, 10);
         Page<Statistics> statisticsList = statisticsService.getStatisticsList(of);
         model.addAttribute("statisticsList",statisticsList);
-        return "orderItemForUser";
+        return "users/orderItemForUser";
     }
 
     @RequestMapping(path = "/addOrder",method = RequestMethod.GET)
-    public String changeOrder(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "addOrder";
+    public String changeOrder(){
+        return "users/addOrder";
     }
 
     @RequestMapping(path = "/reduceOrder",method = RequestMethod.GET)
-    public String reduceOrder(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
-        return "reduceOrder";
+    public String reduceOrder(){
+        return "users/reduceOrder";
     }
 
 
 
     //厨师系统
     @RequestMapping(path = "/cookBoard",method = RequestMethod.GET)
-    public String cookBoard(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登陆");
-            return "login";
-        }
+    public String cookBoard(Model model,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
         model.addAttribute("user",user);
-        return "cookBoard";
+        return "users/cookBoard";
     }
 
     @RequestMapping(path = "/startCooking",method = RequestMethod.GET)
-    public String startCooking(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登陆");
-            return "login";
-        }
-        return "startCooking";
+    public String startCooking(){
+        return "users/startCooking";
     }
 
     @RequestMapping(path = "/rest",method = RequestMethod.GET)
-    public String rest(Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登陆");
-            return "login";
-        }
-        return "rest";
+    public String rest(){
+        return "users/rest";
     }
 
 

@@ -2,7 +2,6 @@ package com.example.restaurant.controller;
 
 import com.example.restaurant.model.Customer;
 import com.example.restaurant.model.Dishes;
-import com.example.restaurant.model.User;
 import com.example.restaurant.service.IDishesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,30 +24,20 @@ public class DishesController {
     @RequestMapping(path = "dishesListPage",method = RequestMethod.POST)
     public String dishesListPage(
             @RequestParam(name = "number")
-            int n,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int n,Model model){
         PageRequest of = PageRequest.of(n,10);
         Page<Dishes> dishesList = dishesService.getDishesList(of);
         model.addAttribute("dishesList",dishesList);
-        return "dishes";
+        return "users/dishes";
     }
 
     @RequestMapping(path = "dishesByName",method = RequestMethod.POST)
     public String dishesByName(
             @RequestParam(name = "name")
-            String name,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            String name,Model model){
         Dishes dishesByName = dishesService.getDishesByName(name);
         model.addAttribute("dishesList",dishesByName);
-        return "dishes";
+        return "users/dishes";
     }
 
     @RequestMapping(path = "dishesByCategory",method = RequestMethod.POST)
@@ -56,16 +45,11 @@ public class DishesController {
             @RequestParam(name = "categoryId")
             int categoryId,
             @RequestParam(name = "n")
-            int n, Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int n, Model model){
         PageRequest of = PageRequest.of(n, 10);
         Page<Dishes> dishesListByCategoryId = dishesService.getDishesListByCategoryId(categoryId, of);
         model.addAttribute("dishesList",dishesListByCategoryId);
-        return "dishes";
+        return "users/dishes";
     }
 
     @RequestMapping(path = "addDishesList",method = RequestMethod.POST)
@@ -76,15 +60,10 @@ public class DishesController {
             String name,
             @RequestParam(name = "price")
             double price,
-            Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            Model model){
         dishesService.newDishes(name,price,categoryId);
         model.addAttribute("tip","添加成功");
-        return "addDishesList";
+        return "users/addDishesList";
     }
 
     @RequestMapping(path = "/dishesListByCategoryId",method = RequestMethod.POST)
@@ -129,16 +108,11 @@ public class DishesController {
     @RequestMapping(path = "dishesByCategoryId",method = RequestMethod.POST)
     public String dishesByCategoryId(
             @RequestParam(name = "categoryId")
-            int categoryId,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int categoryId,Model model){
         PageRequest of = PageRequest.of(0, 10);
         Page<Dishes> dishesListByCategoryId = dishesService.getDishesListByCategoryId(categoryId, of);
         model.addAttribute("dishesList",dishesListByCategoryId);
-        return "addOrder";
+        return "users/addOrder";
     }
 
     @RequestMapping(path = "/dishesByCategoryIdPage",method = RequestMethod.POST)
@@ -146,16 +120,11 @@ public class DishesController {
             @RequestParam(name = "categoryId")
             int categoryId,
             @RequestParam(name = "number")
-            int n,Model model,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if(user == null){
-            model.addAttribute("error","你已退出系统，请重新登录");
-            return "login";
-        }
+            int n,Model model){
         PageRequest of = PageRequest.of(n, 10);
         Page<Dishes> dishesPage = dishesService.getDishesListByCategoryId(categoryId, of);
         model.addAttribute("dishesList",dishesPage);
-        return "addOrder";
+        return "users/addOrder";
     }
 
 }

@@ -3,30 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>orderedByCustomer</title>
+    <title>bill</title>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
-        function getDishesName(){
-            let a = $(".dishesId");
-            for(let i = 0;i < a.length;i++){
-                let aa = a[i];
-                let url = "/dishes?dishesId=" + aa.textContent;
-                $.get(url,function (data,status){
-                    if(status == "success"){
-                        aa.textContent = data["name"];
-                    }else{
-                        console.log("error");
-                    }
-                })
-                console.log(aa.textContent);
-            }
+        function getTableId() {
+            let a = $("#tableId").text();
+            $("#tableId1").val(a);
         }
     </script>
-
+    <script>
+        function getTableIdAndCustomerId() {
+            let b = $("#customerId").text();
+            $("#customerId1").val(b);
+        }
+    </script>
 </head>
-<body onload="getDishesName()">
-
+<body>
 
 <div class="row text-center" id="header">
     <h1>欢迎使用餐厅系统</h1>
@@ -72,48 +65,59 @@
         </div>
         <div class="col-10">
             <div id="content">
-                <h2>清单</h2>
+                <h2>结账</h2>
                 <p th:text="${tip}"></p>
+                <form action="/orderByTableId" method="post">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="i1" type="number" name="tableId" placeholder="xxx">
+                                <label for="i1">请输入桌号:</label>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-floating ">
+                                <button class="btn btn-outline-success form-control" type="submit">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
                 <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">id</th>
-                        <th scope="col">菜品id</th>
-                        <th scope="col">菜名</th>
-                        <th scope="col">单价</th>
-                        <th scope="col">数量</th>
+                        <th scope="col">顾客Id</th>
+                        <th scope="col">桌号</th>
                         <th scope="col">总价</th>
-                        <th scope="col">状态</th>
+                        <th scope="col">支付状态</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="m:${orderItems}">
+                    <tr th:each="m:${order}">
                         <td th:text="${m.id}"></td>
-                        <td th:text="${m.dishesId}"></td>
-                        <td class="dishesId" th:text="${m.dishesId}"></td>
-                        <td th:text="${m.price}"></td>
-                        <td th:text="${m.count}"></td>
+                        <td id="customerId" th:text="${m.customerId}"></td>
+                        <td id="tableId" th:text="${m.tableId}"></td>
                         <td th:text="${m.total}"></td>
                         <td th:text="${m.status}"></td>
                     </tr>
                     </tbody>
                 </table>
-
-                <form action="/orderItemsPage" method="post">
-                    <div>
-                        <label>
-                            请选择页数<select name="number" class="form-select">
-                            <option value="0" selected>1</option>
-                            <option value="1">2</option>
-                        </select>
-                        </label>
-                        <button class="btn btn-success" type="submit">确定</button>
+                <div class="row">
+                    <div class="col-3">
+                        <form action="/orderedByCustomer" method="post">
+                            <input id="customerId1" type="hidden" name="customerId">
+                            <button onclick="getTableIdAndCustomerId()" type="submit" class="btn btn-success">查看订单列表
+                            </button>
+                        </form>
                     </div>
-                </form>
-                <a href="/pay">返回</a>
-                <a href="/addOrder">添加订单项</a>
-                <a href="/reduceOrder">删除订单项</a>
+                    <div class="col-3">
+                        <form id="form" action="/payOrder" method="post">
+                            <input id="tableId1" type="hidden" name="tableId">
+                            <button onclick="getTableId()" type="submit" class="btn btn-success">结账</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
