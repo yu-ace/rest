@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>dishesIndex</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
-<div id="header" style="background-color:#33CCCC;">
-    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+<div class="row text-center" id="header">
+    <h1 >欢迎来到本餐厅</h1>
+</div>
 
-<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+<div>
 
     <form action="/lookingForSomething" method="post">
-        <div>
-            请输入你需要查找的菜品<input type="text" name="dishesName">
-        </div>
-        <div>
-            <input type="submit" value="搜索">
+        <div class="row">
+            <div class="col-10">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="i1" type="text" name="dishesName" placeholder="xxx">
+                    <label for="i1">请输入菜名:</label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-floating ">
+                    <button class="btn btn-outline-success form-control" type="submit">搜索</button>
+                </div>
+            </div>
         </div>
     </form>
 
@@ -25,19 +35,21 @@
     <h2>本店推荐</h2>
     <p th:text="${tip}"></p>
 
-    <table border="1">
+    <table class="table">
+        <thead>
         <tr>
-            <th>id</th>
-            <th>菜品名</th>
-            <th>价格</th>
+            <th scope="col">id</th>
+            <th scope="col">菜品名</th>
+            <th scope="col">价格</th>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="m:${dishesList}">
             <td th:text="${m.id}"></td>
             <td th:text="${m.name}"></td>
             <td th:text="${m.price}"></td>
         </tr>
     </table>
-
 </div>
 </body>
 </html>

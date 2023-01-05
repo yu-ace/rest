@@ -2,26 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>customer</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-<div id="header" style="background-color:#33CCCC;">
-    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
+<div class="container text-center">
+    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1>
+</div>
 
-<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
-    <h1>请注册登陆</h1>
+<div>
+    <h1>请登陆</h1>
     <p th:text="${tip}"></p>
 
     <form action="/login" method="post">
-        <div>
-            请输入用户名<input type="text" name="name">
+        <div class="form-floating mb-3">
+            <input class="form-control" placeholder="text" name="name" type="text">
+            <label class="form-label">用户名</label>
         </div>
-        <div>
-            请输入密码<input type="password" name="password">
+        <div class="form-floating">
+            <input class="form-control" placeholder="Password" type="password" name="password">
+            <label class="form-label">密码</label>
         </div>
-        <button type="submit">确定</button>
+        <button class="btn btn-success" type="submit">确认</button>
     </form>
-
 </div>
 </body>
 </html>

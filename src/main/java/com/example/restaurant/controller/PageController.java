@@ -75,18 +75,6 @@ public class PageController {
         return "addDishesList";
     }
 
-//    @RequestMapping(path = "/orderItemForUser",method = RequestMethod.GET)
-//    public String orderItemForUser(Model model,HttpSession session){
-//        User user = (User) session.getAttribute("user");
-//        if(user == null){
-//            model.addAttribute("error","你已退出系统，请重新登录");
-//            return "login";
-//        }
-//        PageRequest of = PageRequest.of(0, 10);
-//        Page<OrderItem> orderItem = orderItemService.getOrderItem(of);
-//        model.addAttribute("orderItem",orderItem);
-//        return "orderItemForUser";
-//    }
 
     @RequestMapping(path = "/userList",method = RequestMethod.GET)
     public String userList(Model model,HttpSession session){

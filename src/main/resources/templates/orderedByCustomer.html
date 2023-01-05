@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>orderedByCustomer</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
         function getDishesName(){
@@ -25,55 +27,96 @@
 </head>
 <body onload="getDishesName()">
 
-<div id="header" style="background-color:#33CCCC;">
-    <h1 style="margin-bottom:0;text-align:center">欢迎来到本餐厅</h1></div>
 
-<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
+</div>
 
-    <div th:insert="commons::name1"></div>
-
-    <h2>清单</h2>
-    <p th:text="${tip}"></p>
-
-    <table border="1">
-        <tr>
-            <th>id</th>
-            <th>菜品id</th>
-            <th>菜名</th>
-            <th>单价</th>
-            <th>数量</th>
-            <th>总价</th>
-            <th>状态</th>
-        </tr>
-        <tr th:each="m:${orderItems}">
-            <td th:text="${m.id}"></td>
-            <td th:text="${m.dishesId}"></td>
-            <td class="dishesId" th:text="${m.dishesId}"></td>
-            <td th:text="${m.price}"></td>
-            <td th:text="${m.count}"></td>
-            <td th:text="${m.total}"></td>
-            <td th:text="${m.status}"></td>
-        </tr>
-    </table>
-
-    <form action="/orderItemsPage" method="post">
-        <div>
-            <label>
-                请选择页数<select name="number">
-                <option value="0">1</option>
-                <option value="1">2</option>
-            </select>
-            </label>
-            <button type="submit">确定</button>
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>账单管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/pay">结账</a>
+                </div>
+                <div class="list-group">
+                    <b>系统管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/dishesList">管理菜单</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/addDishesList">添加菜品</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/orderItemForUser">查看订单额</a>
+                </div>
+                <div class="list-group">
+                    <b>用户管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/userList">在职员工列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/newUser">新员工注册</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/changeUserInformation">更改员工信息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/deleteUser">删除用户</a>
+                </div>
+                <div class="list-group">
+                    <b>桌子管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/tableList">桌子列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/table">桌子管理</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/login">退出</a>
+                </div>
+            </div>
         </div>
-    </form>
+        <div class="col-10">
+            <div id="content">
+                <h2>清单</h2>
+                <p th:text="${tip}"></p>
 
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">菜品id</th>
+                        <th scope="col">菜名</th>
+                        <th scope="col">单价</th>
+                        <th scope="col">数量</th>
+                        <th scope="col">总价</th>
+                        <th scope="col">状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="m:${orderItems}">
+                        <td th:text="${m.id}"></td>
+                        <td th:text="${m.dishesId}"></td>
+                        <td class="dishesId" th:text="${m.dishesId}"></td>
+                        <td th:text="${m.price}"></td>
+                        <td th:text="${m.count}"></td>
+                        <td th:text="${m.total}"></td>
+                        <td th:text="${m.status}"></td>
+                    </tr>
+                    </tbody>
+                </table>
 
-
-    <a href="/pay">返回</a>
-    <a href="/addOrder">添加订单项</a>
-    <a href="/reduceOrder">删除订单项</a>
-
+                <form action="/orderItemsPage" method="post">
+                    <div>
+                        <label>
+                            请选择页数<select name="number" class="form-select">
+                            <option value="0" selected>1</option>
+                            <option value="1">2</option>
+                        </select>
+                        </label>
+                        <button class="btn btn-success" type="submit">确定</button>
+                    </div>
+                </form>
+                <a href="/pay">返回</a>
+                <a href="/addOrder">添加订单项</a>
+                <a href="/reduceOrder">删除订单项</a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

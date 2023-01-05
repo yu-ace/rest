@@ -2,16 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>changeUserInformation</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/jquery-3.6.1.min(1).js"></script>
     <script>
-        function getVerification(){
+        function getVerification() {
             let a = $("#cellphone");
-            let url = "/send?cellphone="+a.val();
-            $.get(url,function (data,status){
-                if(status == "success"){
+            let url = "/send?cellphone=" + a.val();
+            $.get(url, function (data, status) {
+                if (status == "success") {
                     a.textContent = data["code"];
-                }else{
+                } else {
                     console.log("error");
                 }
             })
@@ -19,12 +21,12 @@
         }
     </script>
     <script>
-        function checkPassword(){
+        function checkPassword() {
             let a = $("#p1").val();
             let b = $("#p2").val();
-            if(a != b){
+            if (a != b) {
                 alert("两次密码不同");
-                $("#1").submit(function (){
+                $("#1").submit(function () {
                     return false;
                 })
             }
@@ -32,30 +34,76 @@
     </script>
 </head>
 <body>
-<div id="header" style="background-color:#33CCCC;">
-    <h1 style="margin-bottom:0;text-align:center">欢迎使用餐厅系统</h1></div>
 
-<div id="content" style="background-color:#E0FFFF;height:1000px;width:80%;float:left;">
-    <div th:insert="commons::name1"></div>
-    <h2>重置密码</h2>
-    <p th:text="${tip}"></p>
-    <div>
-        请输入你的手机号<input id="cellphone" type="text" name="phone">
-    </div>
-    <button onclick="getVerification()">获取验证码</button>
-
-    <form action="/changePassword" method="post">
-        <div>
-            请输入验证码<input type="text" name="code">
-        </div>
-        <div>
-            请输入新密码<input type="password" id="p1">
-        </div>
-        <div>
-            请确认新密码<input onblur="checkPassword()" type="password" name="password" id="p2">
-        </div>
-        <button id="1" type="submit">确定</button>
-    </form>
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
 </div>
-</body>
-</html>
+
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>账单管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/pay">结账</a>
+                </div>
+                <div class="list-group">
+                    <b>系统管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/dishesList">管理菜单</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/addDishesList">添加菜品</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/orderItemForUser">查看订单额</a>
+                </div>
+                <div class="list-group">
+                    <b>用户管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/userList">在职员工列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/newUser">新员工注册</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/changeUserInformation">更改员工信息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/deleteUser">删除用户</a>
+                </div>
+                <div class="list-group">
+                    <b>桌子管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/tableList">桌子列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/table">桌子管理</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/login">退出</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="content">
+                <h2>重置密码</h2>
+                <p th:text="${tip}"></p>
+
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="cellphone" type="text" name="phone" placeholder="xxx">
+                    <label for="cellphone">请输入手机号:</label>
+                </div>
+                <button onclick="getVerification()" class="btn btn-outline-success form-control">获取验证码</button>
+                <form action="/changePassword" method="post">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="i1" type="text" name="code" placeholder="xxx">
+                        <label for="i1">请输入验证码:</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="password" id="p1" placeholder="xxx">
+                        <label for="p1">请输入新密码:</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" onblur="checkPassword()" type="password" name="password" id="p2"
+                               placeholder="xxx">
+                        <label for="p2">请输入新密码:</label>
+                    </div>
+                    <button id="1" class="btn btn-outline-success form-control" type="submit">确定</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

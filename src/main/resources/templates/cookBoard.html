@@ -2,20 +2,38 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>userBoard</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
 </head>
 
-<body></body>
-<div id="container" style="width:1800px">
+<body>
 
-    <div th:insert="commons::name"></div>
-
-    <div id="content" style="background-color:#E0FFFF;height:1000px;width:1600px;float:left;">
-        <p>欢迎<span th:text="${user.name}"></span>登陆,请选择您需要查看的内容</p>
-
-
-    </div>
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
 </div>
 
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>功能选择</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/startCooking">做菜</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/rest">休息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/login">下班</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="content">
+                <p>欢迎<span th:text="${user.name}"></span>登陆,请选择您需要查看的内容</p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

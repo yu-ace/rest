@@ -1,21 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>userBoard</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>userBoard</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
 </head>
 
-<body></body>
-<div id="container" style="width:1800px">
+<body>
 
-  <div th:insert="commons::name1"></div>
-
-  <div id="content" style="background-color:#E0FFFF;height:1000px;width:1600px;float:left;">
-    <p>欢迎<span th:text="${user.name}"></span>登陆,请选择您需要查看的内容</p>
-
-
-  </div>
+<div class="row text-center" id="header">
+    <h1>欢迎使用餐厅系统</h1>
 </div>
 
+<div id="container">
+    <div class="row">
+        <div class="col-2">
+            <div id="menu">
+                <div class="list-group">
+                    <b>账单管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/pay">结账</a>
+                </div>
+                <div class="list-group">
+                    <b>系统管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/dishesList">管理菜单</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/addDishesList">添加菜品</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/orderItemForUser">查看订单额</a>
+                </div>
+                <div class="list-group">
+                    <b>用户管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/userList">在职员工列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/newUser">新员工注册</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/changeUserInformation">更改员工信息</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/deleteUser">删除用户</a>
+                </div>
+                <div class="list-group">
+                    <b>桌子管理</b>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/tableList">桌子列表</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info"
+                       href="/table">桌子管理</a>
+                    <a class="list-group-item list-group-item-action list-group-item-info" href="/login">退出</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="content">
+                <p>欢迎<span th:text="${user.name}"></span>登陆,请选择您需要查看的内容</p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
