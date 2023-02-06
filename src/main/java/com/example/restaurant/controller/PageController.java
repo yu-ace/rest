@@ -23,8 +23,6 @@ public class PageController {
     @Autowired
     IUserService userService;
     @Autowired
-    ITableService tableService;
-    @Autowired
     IOrderService orderService;
     @Autowired
     IShoppingCartService shoppingCartService;
@@ -84,14 +82,6 @@ public class PageController {
     @RequestMapping(path = "/deleteUser",method = RequestMethod.GET)
     public String deleteUser(){
         return "users/deleteUser";
-    }
-
-    @RequestMapping(path = "/tableList",method = RequestMethod.GET)
-    public String tableList(Model model){
-        PageRequest of = PageRequest.of(0, 10);
-        Page<Table> tableList = tableService.getTableList(0,of);
-        model.addAttribute("tableList",tableList);
-        return "users/tableList";
     }
 
     @RequestMapping(path = "/table",method = RequestMethod.GET)

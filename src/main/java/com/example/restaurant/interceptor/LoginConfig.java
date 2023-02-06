@@ -21,7 +21,9 @@ public class LoginConfig implements WebMvcConfigurer {
                 "/customerIndex",
                 "/lookingFor",
                 "/orderedMenu",
-                "shoppingCart",
+                "/shoppingCart",
+                "/send",
+                "/checkVerificationCode",
                 "/**/*.html",
                 "/**/*.js",
                 "/**/*.css"
@@ -30,6 +32,8 @@ public class LoginConfig implements WebMvcConfigurer {
                 "/",
                 "/login",
                 "/customer",
+                "/send",
+                "/checkVerificationCode",
                 "/**/*.html",
                 "/**/*.js",
                 "/**/*.css"
